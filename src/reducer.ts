@@ -18,6 +18,7 @@ import {
   SWITCH_ENDPOINT,
 
   LOAD_ADDRESSES,
+  SWITCH_ADDRESS,
 } from './constants';
 
 export type Address = {
@@ -114,6 +115,10 @@ export default handleActions(
         address = a.address;
       }
       return { ...state, addresses, address };
+    },
+
+    [SWITCH_ADDRESS]: (state: InitialStateType, { payload }: any) => {
+      return { ...state, address: payload.address };
     },
   },
   initialState

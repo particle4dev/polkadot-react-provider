@@ -1,14 +1,18 @@
 import * as React from "react";
-import { ApiPromise } from '@polkadot/api'
 import { WithStyles, createStyles, withStyles, Theme } from '@material-ui/core';
+import values from 'lodash/values';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Identicon from '@polkadot/react-identicon';
-import type { KeyringPair } from '@polkadot/keyring/types';
-import { useSubstrate, Address, READY } from '../../src';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
+
+import { useSubstrate, switchAddress, Address, READY } from '../../src';
 import ToolbarSection from './ToolbarSection';
 
 // size (optional) is a number, indicating the size (in pixels, 64 as default)
@@ -48,10 +52,8 @@ export type NavbarProps = WithStyles<typeof styles> & {
 function Navbar({ children, classes, title, style }: NavbarProps) {
   debug('render');
 
-  const { state: { keyringState, apiState, api, addresses } } = useSubstrate();
+  const { state: { keyringState, apiState, api, addresses, address }, dispatch } = useSubstrate();
   
-  const [address, setAddress] = React.useState<null | string>(null); 
-
   const [balance, setBalance] = React.useState<null | string>(null); 
 
   // const accountPair = keyringState === READY && keyring.getPair(initialAddress);
@@ -63,15 +65,22 @@ function Navbar({ children, classes, title, style }: NavbarProps) {
     setBalance(data.free.toString());
   }
 
-  React.useEffect(() => {
-    if(keyringState === READY && apiState === READY && addresses && !address) {
-      const a = addresses[Object.keys(addresses)[0]];
-      setAddress(a.address);
-    }
-  }, [keyringState, apiState, addresses]);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (e: React.SyntheticEvent) => {
+    const target = e.target as HTMLElement;
+    const value = target.getAttribute('data-value');
+    dispatch(switchAddress(value));
+    setAnchorEl(null);
+  };
 
   React.useEffect(() => {
-    if(api && address && !balance) {
+    if(api && address && apiState === READY) {
       loadBalace(address);
     }
   }, [balance, address, api]);
@@ -107,7 +116,7 @@ function Navbar({ children, classes, title, style }: NavbarProps) {
                   textAlign: 'right',
                 }}
               >
-                {addresses[address].name}
+                {addresses[address as string].name}
               </Typography>
               <Typography
                 component="div"
@@ -120,14 +129,27 @@ function Navbar({ children, classes, title, style }: NavbarProps) {
                 {balance || 0}
               </Typography>
             </div>
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={handleClick}>
               <Identicon
-                className="h-8 w-8 rounded-full"
+                aria-controls="fade-menu"
+                aria-haspopup="true"
                 value={address}
                 size={size}
                 theme={theme}
               />
             </IconButton>
+            <Menu
+              id="fade-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={open}
+              onClose={handleClose}
+              TransitionComponent={Fade}
+            >
+              {values(addresses).map(({ key, address }: Address) => (
+                <MenuItem key={`navbar-menu-item-${key}`} data-value={address} onClick={handleClose}>{address}</MenuItem>
+              ))}
+            </Menu>
           </> : <Button variant="contained" color="primary" disableElevation>
             Login
           </Button>}

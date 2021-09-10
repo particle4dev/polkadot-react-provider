@@ -37,3 +37,5 @@ export const KEYRING_ERROR = createSymbol('KEYRING_ERROR');
  * ADDRESSES
  */
 export const LOAD_ADDRESSES = createSymbol('LOAD_ADDRESSES');
+
+export const SWITCH_ADDRESS = createSymbol('SWITCH_ADDRESS');

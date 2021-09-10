@@ -13,6 +13,7 @@ import {
   KEYRING_ERROR,
 
   LOAD_ADDRESSES,
+  SWITCH_ADDRESS,
 } from './constants';
 import {
   Address
@@ -50,4 +51,8 @@ export const connectError = createAction(CONNECT_ERROR, (err: any) => ({
 
 export const loadAddresses = createAction(LOAD_ADDRESSES, (addresses: Address[]) => ({
   addresses,
+}));
+
+export const switchAddress = createAction(SWITCH_ADDRESS, (address: string) => ({
+  address,
 }));

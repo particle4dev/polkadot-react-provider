@@ -31,7 +31,7 @@ export type Address = {
 }
 
 export type InitialStateType = {
-  keyring: Keyring;
+  keyring: null | Keyring;
   keyringState: null | string;
 
   api: null | ApiPromise;

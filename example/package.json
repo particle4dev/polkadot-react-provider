@@ -10,6 +10,12 @@
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
+    "@polkadot/api": "^5.8.3",
+    "@polkadot/extension-dapp": "^0.39.3",
+    "@polkadot/extension-inject": "^0.39.3",
+    "@polkadot/react-identicon": "^0.85.3",
+    "@polkadot/ui-keyring": "^0.85.3",
+    "@polkadot/util-crypto": "^7.3.1",
     "fibers": ">= 3.1.0",
     "next": "^11.1.2",
     "node-sass": "^4.0.0 || ^5.0.0",

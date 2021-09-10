@@ -96,15 +96,16 @@ const loadAccounts = (
 
       dispatch(setKeyring(keyring));
 
-      const keyringOptions: Address[] = await Promise.all(keyring.getPairs().map(async (account: KeyringPair) => {  
-        return {
-          key: account.address,
-          address: account.address,
-          name: account.meta.name.toUpperCase(),
-          source: account.meta.source,
-          isTesting: account.meta.isTesting,
-          isInjected: account.meta.isInjected,
-        }
+      const keyringOptions: Address[] = await Promise.all(keyring.getPairs().map(async (account: KeyringPair) => {
+        const { address, meta } = account;
+        return ({
+          key: address,
+          address: address,
+          name: meta.name,
+          source: meta.source,
+          isTesting: meta.isTesting,
+          isInjected: meta.isInjected,
+        } as Address);
       }));
   
       if(keyringOptions.length > 0) {

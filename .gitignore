@@ -3,6 +3,7 @@
 node_modules
 .cache
 dist
+README-VI.md
 example/run.sh
 example/stop.sh
 example/dev-pid.txt

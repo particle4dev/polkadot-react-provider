@@ -1,0 +1,71 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "polkadot-react-provider",
+  "author": "Nam Hoang (particle4dev@gmail.com)",
+  "module": "dist/polkadot-react-provider.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/polkadot-react-provider.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/polkadot-react-provider.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^5.0.3",
+    "@types/react": "^17.0.20",
+    "@types/react-dom": "^17.0.9",
+    "@types/redux-actions": "^2.6.2",
+    "husky": "^7.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "size-limit": "^5.0.3",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@polkadot/api": "^5.8.3",
+    "@polkadot/extension-dapp": "^0.39.3",
+    "@polkadot/extension-inject": "^0.39.3",
+    "@polkadot/react-identicon": "^0.85.3",
+    "@polkadot/ui-keyring": "^0.85.3",
+    "@polkadot/util-crypto": "^7.3.1",
+    "redux-actions": "^2.6.5"
+  }
+}

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import keyring from '@polkadot/ui-keyring';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import type { KeyringPair } from '@polkadot/keyring/types';
 import {
   connectNetwork,
   connectSuccess,
@@ -11,10 +12,11 @@ import {
   loadKeyring,
   switchEndpoint,
   initKeyring,
+  loadAddresses
 } from './actions';
 import { INIT, READY } from './constants';
 import SubstrateContext from './Context';
-import reducer, { initialState, InitialStateType } from './reducer';
+import reducer, { initialState, InitialStateType, Address } from './reducer';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const debug = require('debug')('substrate-lib:SubstrateProvider');
@@ -93,6 +95,21 @@ const loadAccounts = (
       );
 
       dispatch(setKeyring(keyring));
+
+      const keyringOptions: Address[] = await Promise.all(keyring.getPairs().map(async (account: KeyringPair) => {  
+        return {
+          key: account.address,
+          address: account.address,
+          name: account.meta.name.toUpperCase(),
+          source: account.meta.source,
+          isTesting: account.meta.isTesting,
+          isInjected: account.meta.isInjected,
+        }
+      }));
+  
+      if(keyringOptions.length > 0) {
+        dispatch(loadAddresses(keyringOptions));
+      }
     } catch (e) {
       debug.error(e);
       dispatch(keyringError());
@@ -145,6 +162,8 @@ const SubstrateProvider = ({ children, endpoint }: SubstrateProviderProps) => {
   const contextValue: any = React.useMemo(() => {
     return { state, dispatch };
   }, [state, dispatch]);
+
+  console.log(state, 'state');
 
   return (
     <SubstrateContext.Provider value={contextValue}>

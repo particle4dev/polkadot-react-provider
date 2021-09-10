@@ -3,3 +3,7 @@
 node_modules
 .cache
 dist
+example/run.sh
+example/stop.sh
+example/dev-pid.txt
+example/my.log

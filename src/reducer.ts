@@ -1,5 +1,6 @@
 import { handleActions } from 'redux-actions';
 import { ApiPromise } from '@polkadot/api';
+import { Keyring } from '@polkadot/ui-keyring';
 import {
   INIT_KEYRING,
   LOAD_KEYRING,
@@ -15,16 +16,30 @@ import {
   CONNECT_SUCCESS,
   CONNECT_ERROR,
   SWITCH_ENDPOINT,
+
+  LOAD_ADDRESSES,
 } from './constants';
 
+export type Address = {
+  key: null | string;
+  address: null | string;
+  name: string;
+  source: string;
+  isTesting: boolean;
+  isInjected: boolean;
+}
+
 export type InitialStateType = {
-  keyring: any;
-  keyringState: any;
+  keyring: Keyring;
+  keyringState: null | string;
 
   api: null | ApiPromise;
   apiError: any;
   apiState: null | string;
   endpoint: null | string;
+
+  addresses: Record<string, Address>;
+  address: null | string;
 };
 
 // The initial state of the App
@@ -39,6 +54,9 @@ export const initialState: InitialStateType = {
   apiError: null,
   apiState: null,
   endpoint: null,
+
+  addresses: {},
+  address: null,
 };
 
 export default handleActions(
@@ -82,6 +100,20 @@ export default handleActions(
 
     [SET_KEYRING]: (state: InitialStateType, { payload }: any) => {
       return { ...state, keyring: payload.keyring, keyringState: READY };
+    },
+
+    [LOAD_ADDRESSES]: (state: InitialStateType, { payload }: any) => {
+      const addresses: Record<string, Address> = {};
+      for(let i = 0; i < payload.addresses.length; i += 1) {
+        const address = payload.addresses[i];
+        addresses[address.key] = address;
+      }
+      let address = state.address;
+      if(state.address === null) {
+        const a = addresses[Object.keys(addresses)[0]];
+        address = a.address;
+      }
+      return { ...state, addresses, address };
     },
   },
   initialState

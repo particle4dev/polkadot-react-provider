@@ -19,7 +19,7 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const endpoint = process.env!.NEXT_PUBLIC_ENDPOINT || 'wss://rpc.polkadot.io';
+  const endpoint = process.env!.NEXT_PUBLIC_ENDPOINT || 'wss://rococo-rpc.polkadot.io';
 
   return (<>
     <NextHead>

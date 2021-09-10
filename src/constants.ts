@@ -32,3 +32,8 @@ export const LOAD_KEYRING = createSymbol('LOAD_KEYRING');
 export const SET_KEYRING = createSymbol('SET_KEYRING');
 
 export const KEYRING_ERROR = createSymbol('KEYRING_ERROR');
+
+/**
+ * ADDRESSES
+ */
+export const LOAD_ADDRESSES = createSymbol('LOAD_ADDRESSES');

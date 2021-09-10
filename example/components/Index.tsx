@@ -1,20 +1,16 @@
 import * as React from 'react';
 import {
   useSnackbar,
-  // SnackbarMessage,
-  // OptionsObject,
-  // SnackbarKey,
 } from 'notistack';
 import {
   INIT,
   LOADING,
   READY,
   useSubstrate,
-  switchEndpoint,
-  initKeyring,
 } from '../../src/.';
 import SimpleBackdrop from './SimpleBackdrop';
 import ProgressBar from './ProgressBar';
+import Navbar from './Navbar';
 
 const anchorOrigin = {
   vertical: 'top',
@@ -61,6 +57,7 @@ const Index = () => {
   return (<>
     <SimpleBackdrop open={loading} />
     {loading && <ProgressBar />}
+    <Navbar />
   </>);
 };
 

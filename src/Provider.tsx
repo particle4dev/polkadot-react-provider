@@ -164,8 +164,6 @@ const SubstrateProvider = ({ children, endpoint }: SubstrateProviderProps) => {
     return { state, dispatch };
   }, [state, dispatch]);
 
-  console.log(state, 'state');
-
   return (
     <SubstrateContext.Provider value={contextValue}>
       {children}

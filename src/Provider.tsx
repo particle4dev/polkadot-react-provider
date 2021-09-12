@@ -112,7 +112,7 @@ const loadAccounts = (
         dispatch(loadAddresses(keyringOptions));
       }
     } catch (e) {
-      debug.error(e);
+      debug(`error: ${e}`);
       dispatch(keyringError());
     }
   };

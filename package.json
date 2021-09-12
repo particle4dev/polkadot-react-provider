@@ -1,5 +1,5 @@
 {
-  "version": "0.3.2",
+  "version": "0.3.3",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -69,6 +69,7 @@
     "@polkadot/extension-dapp": "^0.39.3",
     "@polkadot/extension-inject": "^0.39.3",
     "@polkadot/ui-keyring": "^0.85.3",
+    "debug": "^4.3.2",
     "redux-actions": "^2.6.5"
   }
 }
